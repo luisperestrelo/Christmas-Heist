@@ -8,6 +8,12 @@ public class GrappleController : MonoBehaviour
     [SerializeField] private float releaseBoost = 1.1f;
     [SerializeField] private LineRenderer ropeLine;
 
+    [SerializeField] private float jumpForce = 5f;
+
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private Transform feetPosition;
+    [SerializeField] private float groundCheckDistance = 0.1f;
+
     private Vector2 grapplePoint; // The point where the grapple connected
 
     private DistanceJoint2D grappleJoint;
@@ -18,6 +24,7 @@ public class GrappleController : MonoBehaviour
     private bool wantToGrapple = false;
     private bool wantToRelease = false;
     private bool isGrappling = false;
+    private bool isGrounded = false;
 
     void Start()
     {
@@ -29,11 +36,16 @@ public class GrappleController : MonoBehaviour
 
         ropeLine.enabled = false; // hide line when not grappling
 
+        SetInitialAnchor();
+
     }
 
-    
+
     void Update()
     {
+        // for now, the only point of checking ground is so the character does a small jump when grappling from a grounded position
+        CheckIfGrounded();
+
         if (Input.GetKeyDown(grappleKey))
         {
             wantToGrapple = true;
@@ -48,6 +60,12 @@ public class GrappleController : MonoBehaviour
         {
             UpdateRopeLine();
         }
+    }
+
+    private void CheckIfGrounded()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(feetPosition.position, Vector2.down, groundCheckDistance, groundLayer);
+        isGrounded = hit.collider != null;
     }
 
     void FixedUpdate()
@@ -65,8 +83,19 @@ public class GrappleController : MonoBehaviour
         }
     }
 
+    void SetInitialAnchor()
+    {
+        grappleJoint.enabled = true;
+
+        isGrappling = true;
+        ropeLine.enabled = true;
+        attachedObject = grappleJoint.connectedBody.gameObject;
+
+    }
+
     void AttemptGrapple()
     {
+
         Vector2 aimDir = playerController.GetAimDirection();
         Vector2 origin = transform.position;
         RaycastHit2D hit = Physics2D.Raycast(origin, aimDir, maxGrappleDistance, playerController.AnchorLayer);
@@ -86,11 +115,15 @@ public class GrappleController : MonoBehaviour
             //grapplePoint = hit.point;
 
             attachedObject = hit.collider.gameObject;
-            
+
             grapplePoint = hit.collider.transform.position;
             isGrappling = true;
             ropeLine.enabled = true;
 
+            if (isGrounded) //small jump
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            }
 
         }
     }
