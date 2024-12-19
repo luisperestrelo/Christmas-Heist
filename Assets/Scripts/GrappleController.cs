@@ -130,6 +130,10 @@ public class GrappleController : MonoBehaviour
 
     void ReleaseGrapple()
     {
+        if (!isGrappling)
+            return;
+
+
         // small boost at the moment of release:
         rb.velocity = rb.velocity * releaseBoost;
         grappleJoint.enabled = false;
