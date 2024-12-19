@@ -142,6 +142,20 @@ public class GrappleController : MonoBehaviour
         ropeLine.enabled = false;
     }
 
+    public void ForceDetachGrapple()
+    {
+        if (!isGrappling)
+        {
+            Debug.Log("Forced Detach called when not grappled");
+            return;
+        }
+
+        grappleJoint.enabled = false;
+        grappleJoint.connectedBody = null;
+        isGrappling = false;
+        ropeLine.enabled = false;
+    }
+
     void UpdateRopeLine()
     {
         if (!isGrappling) return;
