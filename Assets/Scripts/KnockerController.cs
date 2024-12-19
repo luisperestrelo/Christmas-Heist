@@ -6,6 +6,8 @@ using UnityEngine;
 public class KnockerController : MonoBehaviour
 {
 
+    [SerializeField] private float knockbackForce = 10f;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -28,7 +30,7 @@ public class KnockerController : MonoBehaviour
         if (playerRb != null)
         {
             Vector2 impactDirection = (playerRb.position - (Vector2)transform.position).normalized;
-            playerRb.velocity = impactDirection * 10f; // example knockback force
+            playerRb.velocity = impactDirection * knockbackForce; // example knockback force
         }
     }
 }

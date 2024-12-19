@@ -4,6 +4,7 @@ public class GrappleController : MonoBehaviour
 {
     [SerializeField] private float maxGrappleDistance = 15f;
     [SerializeField] private KeyCode grappleKey = KeyCode.Space;
+    [SerializeField] private float circleCastRadius = 0.5f;
 
     [SerializeField] private float releaseBoost = 1.1f;
     [SerializeField] private LineRenderer ropeLine;
@@ -91,42 +92,72 @@ public class GrappleController : MonoBehaviour
         ropeLine.enabled = true;
         attachedObject = grappleJoint.connectedBody.gameObject;
 
+
+
     }
 
     void AttemptGrapple()
     {
-
         Vector2 aimDir = playerController.GetAimDirection();
         Vector2 origin = transform.position;
-        RaycastHit2D hit = Physics2D.Raycast(origin, aimDir, maxGrappleDistance, playerController.AnchorLayer);
+
+        float radius = circleCastRadius; // Larger radius means more forgiving.
+        RaycastHit2D hit = Physics2D.CircleCast(origin, radius, aimDir, maxGrappleDistance, playerController.AnchorLayer);
 
         if (hit.collider != null)
         {
-            // We hit an anchor point
             grappleJoint.enabled = true;
-
-
             grappleJoint.connectedBody = hit.collider.attachedRigidbody;
-
-
             float distanceToAnchor = Vector2.Distance(origin, hit.point);
             grappleJoint.distance = distanceToAnchor;
 
-            //grapplePoint = hit.point;
-
             attachedObject = hit.collider.gameObject;
-
             grapplePoint = hit.collider.transform.position;
             isGrappling = true;
             ropeLine.enabled = true;
 
-            if (isGrounded) //small jump
+            if (isGrounded)
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             }
-
         }
     }
+
+    //trying a circlecast instead, for more forigving aim
+    /*     void AttemptGrapple()
+        {
+
+            Vector2 aimDir = playerController.GetAimDirection();
+            Vector2 origin = transform.position;
+            RaycastHit2D hit = Physics2D.Raycast(origin, aimDir, maxGrappleDistance, playerController.AnchorLayer);
+
+            if (hit.collider != null)
+            {
+                // We hit an anchor point
+                grappleJoint.enabled = true;
+
+
+                grappleJoint.connectedBody = hit.collider.attachedRigidbody;
+
+
+                float distanceToAnchor = Vector2.Distance(origin, hit.point);
+                grappleJoint.distance = distanceToAnchor;
+
+                //grapplePoint = hit.point;
+
+                attachedObject = hit.collider.gameObject;
+
+                grapplePoint = hit.collider.transform.position;
+                isGrappling = true;
+                ropeLine.enabled = true;
+
+                if (isGrounded) //small jump
+                {
+                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                }
+
+            }
+        } */
 
     void ReleaseGrapple()
     {
@@ -164,5 +195,38 @@ public class GrappleController : MonoBehaviour
         ropeLine.positionCount = 2;
         ropeLine.SetPosition(0, transform.position);
         ropeLine.SetPosition(1, attachedObject.transform.position);
+    }
+
+    void OnDrawGizmos()
+    {
+        if (Application.isPlaying && playerController != null)
+        {
+            Vector2 origin = transform.position;
+            Vector2 aimDir = playerController.GetAimDirection().normalized;
+
+            // Draw the line for the CircleCast path
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(origin, origin + aimDir * maxGrappleDistance);
+
+            // Draw circles along the path to represent the circle cast's radius at start and at the end
+            DrawCircleGizmo(origin, circleCastRadius, Color.cyan);
+            DrawCircleGizmo(origin + aimDir * maxGrappleDistance, circleCastRadius, Color.cyan);
+        }
+    }
+
+    void DrawCircleGizmo(Vector2 center, float radius, Color color)
+    {
+        Gizmos.color = color;
+        const int segments = 36;
+        float angleIncrement = 360f / segments;
+
+        Vector3 prevPoint = center + new Vector2(radius, 0f);
+        for (int i = 1; i <= segments; i++)
+        {
+            float angle = angleIncrement * i * Mathf.Deg2Rad;
+            Vector3 newPoint = center + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
+            Gizmos.DrawLine(prevPoint, newPoint);
+            prevPoint = newPoint;
+        }
     }
 }

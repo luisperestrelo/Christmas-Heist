@@ -14,7 +14,7 @@ public class SlipperyFloorEnsureMinimumVelocity : MonoBehaviour
             {
                 Vector2 currentVelocity = playerRb.velocity;
 
-                // If the player is stationary, push them towards the right
+                // If the player is stationary, push them towards the right. Should never really happen tho
                 if (Mathf.Abs(currentVelocity.x) < 0.01f) // Threshold for "almost zero"
                 {
                     playerRb.velocity = new Vector2(defaultDirection * minimumVelocity, currentVelocity.y);
