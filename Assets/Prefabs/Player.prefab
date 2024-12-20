@@ -149,6 +149,8 @@ GameObject:
   - component: {fileID: 1642744327357284517}
   - component: {fileID: 7289611529745867455}
   - component: {fileID: 196277620648036334}
+  - component: {fileID: 498216835585988222}
+  - component: {fileID: 6423840196818428345}
   - component: {fileID: 7651239301721056187}
   - component: {fileID: 1652165670439826536}
   m_Layer: 0
@@ -269,6 +271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxGrappleDistance: 25
   grappleKey: 32
+  circleCastRadius: 2
   releaseBoost: 1.2
   ropeLine: {fileID: 7095157779787871262}
   jumpForce: 5
@@ -277,6 +280,35 @@ MonoBehaviour:
     m_Bits: 128
   feetPosition: {fileID: 6616203947924086543}
   groundCheckDistance: 0.1
+--- !u!114 &498216835585988222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6266860127214285849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9abe435c52bfb814a94f77cf05678acd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 5
+  backwardsForce: 11
+  shootKey: 102
+  cooldownTime: 2
+--- !u!114 &6423840196818428345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6266860127214285849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf0d6f3a4c768db44bef349cc0814fb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxMomentum: 200
 --- !u!120 &7651239301721056187
 LineRenderer:
   serializedVersion: 2
