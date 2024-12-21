@@ -101,7 +101,7 @@ public class GrappleController : MonoBehaviour
         Vector2 aimDir = playerController.GetAimDirection();
         Vector2 origin = transform.position;
 
-        float radius = circleCastRadius; // Larger radius means more forgiving ("aim assist").
+        float radius = circleCastRadius; // Larger radius means more forgiving ("aim assist")
         RaycastHit2D hit = Physics2D.CircleCast(origin, radius, aimDir, maxGrappleDistance, playerController.AnchorLayer);
 
         if (hit.collider != null)
