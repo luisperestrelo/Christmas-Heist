@@ -19,7 +19,7 @@ public class SlipperyFloorEnsureMinimumVelocity : MonoBehaviour
                 {
                     playerRb.velocity = new Vector2(defaultDirection * minimumVelocity, currentVelocity.y);
                 }
-                //if the player is really slow, give them a minimum velocity
+                //if the player is really slow, give a minimum velocity
                 else if (Mathf.Abs(currentVelocity.x) < minimumVelocity)
                 {
                     float newVelocityX = Mathf.Sign(currentVelocity.x) * minimumVelocity;
