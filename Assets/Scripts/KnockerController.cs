@@ -30,7 +30,7 @@ public class KnockerController : MonoBehaviour
         if (playerRb != null)
         {
             Vector2 impactDirection = (playerRb.position - (Vector2)transform.position).normalized;
-            playerRb.velocity = impactDirection * knockbackForce; // example knockback force
+            playerRb.velocity = impactDirection * knockbackForce; 
         }
     }
 }

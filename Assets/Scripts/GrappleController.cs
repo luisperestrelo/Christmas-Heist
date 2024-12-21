@@ -204,11 +204,9 @@ public class GrappleController : MonoBehaviour
             Vector2 origin = transform.position;
             Vector2 aimDir = playerController.GetAimDirection().normalized;
 
-            // Draw the line for the CircleCast path
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(origin, origin + aimDir * maxGrappleDistance);
 
-            // Draw circles along the path to represent the circle cast's radius at start and at the end
             DrawCircleGizmo(origin, circleCastRadius, Color.cyan);
             DrawCircleGizmo(origin + aimDir * maxGrappleDistance, circleCastRadius, Color.cyan);
         }

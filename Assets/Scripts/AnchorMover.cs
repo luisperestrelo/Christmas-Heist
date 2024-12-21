@@ -71,8 +71,8 @@ public class AnchorMover : MonoBehaviour
         Vector3 endPosition = startingPosition + new Vector2(rightPoint, 0);
         Gizmos.DrawLine(startPosition, endPosition);
 
-        Gizmos.DrawSphere(startPosition, 0.2f); // Start sphere
-        Gizmos.DrawSphere(endPosition, 0.2f);   // End sphere
+        Gizmos.DrawSphere(startPosition, 0.2f); 
+        Gizmos.DrawSphere(endPosition, 0.2f);   
 
         Gizmos.color = originalColor;
     }

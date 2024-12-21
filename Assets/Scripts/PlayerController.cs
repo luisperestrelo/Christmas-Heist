@@ -1,5 +1,7 @@
 using UnityEngine;
 
+//TODO: Split into different scripts later
+//PlayerAimer etc.
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float aimDistance = 10f;

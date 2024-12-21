@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShotgunController : MonoBehaviour
 {
-    [SerializeField] private float damage = 5f;
+    [SerializeField] private float damage = 5f; // we might do something with this later 
     [SerializeField] private float backwardsForce = 10f;
     [SerializeField] private KeyCode shootKey = KeyCode.F;
     [SerializeField] private float cooldownTime = 2f;
@@ -19,13 +19,11 @@ public class ShotgunController : MonoBehaviour
 
 
 
-    // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(shootKey))
